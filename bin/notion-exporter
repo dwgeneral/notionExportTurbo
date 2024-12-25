@@ -1,0 +1,2 @@
+#!/bin/sh
+node /usr/local/lib/node_modules/notion-exporter/dist/notion-exporter.cjs.development.js "$@"

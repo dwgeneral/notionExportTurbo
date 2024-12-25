@@ -11,21 +11,25 @@
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "bin"
   ],
   "module": "dist/notion-exporter.esm.js",
-  "bin": "./bin/index.js",
+  "bin": {
+    "notion-exporter": "./bin/notion-exporter"
+  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "cli": "node bin"
+    "prepare": "tsdx build"
   },
   "dependencies": {
     "adm-zip": "^0.5.10",
     "axios": "^1.6.2",
+    "marked": "^11.1.0",
+    "puppeteer": "^21.6.1",
     "sade": "^1.8.1",
     "uuid": "^9.0.1"
   },

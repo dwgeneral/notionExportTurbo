@@ -133,3 +133,62 @@ use-case? Please submit issues and PRs on Github.
 
 - Yann Bolliger, [@yannbolliger](https://github.com/yannbolliger)
 - Guillermo C. Martínez, [@telekosmos](https://github.com/telekosmos)
+
+NotionExporter.ts
+这个文件实现了一个 NotionExporter 类，用于从 Notion 导出内容。我用中文为您解释主要功能：
+核心功能
+初始化
+需要 Notion 的 token_v2 和 file_token 来认证
+使用 axios 创建 HTTP 客户端，连接 Notion API
+主要导出方法
+getMdFiles: 导出为 Markdown 文件并保存到指定目录
+getCsvString: 导出为 CSV 字符串
+getMdString: 导出为 Markdown 字符串
+getZip: 导出为 ZIP 文件
+
+工作流程
+任务创建 (getTaskId)
+验证输入的 URL 或 blockId
+向 Notion API 发送导出请求
+返回任务 ID
+任务轮询 (pollTask)
+定期检查任务状态
+成功时返回导出文件的 URL
+失败时抛出错误
+文件处理
+下载 ZIP 文件
+根据需求解压或提取特定文件
+支持 CSV 和 Markdown 格式
+
+配置选项
+支持递归导出
+可配置是否包含文件内容
+可自定义轮询间隔
+这是一个设计良好的导出工具，提供了灵活的 API 来处理 Notion 内容的导出需求。它使用 Promise 处理异步操作，并提供了多种导出格式的选择。
+
+export NOTION_TOKEN="v03%3AeyJhbGciOiJkaXIiLCJraWQiOiJwcm9kdWN0aW9uOnRva2VuLXYzOjIwMjQtMTEtMDciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIn0..Z8wtr0scxjKqtKv3I1Y-6A.7ufveykHnGBwsEWI8IUfBO8Ivwxb43cJzTp27RwZbg6UtEI9ocb6J4gLtLsZBskbDuITJIJfW580gACDKryE8jvyWwHA43gwBqvbYqzgPFM1ewxehRDR_XHeRrPTKDjZnNnOXkDzF0yg2IoWzR8r7Fj-IZuBv1JM97OpEtB0zZV0DfTrI1ympKEBSM9lSLaF2z3sDMtF2IXRa30nwWNA5Q-u2H36u5jyXdEd4y_YtBYqP6fu9oqbVsfj6fwR-EeeYJnwGMDUNkVvyeCH4usKcNNNwfDy_u_it5GOe-6pSZsCrWaNFz1ZYAezEa9IQiJJMAleWS151nGdvOyB9zOmm37FJRfeahVCA-mZRDjL_LQ.ldDcBgBtT73I0HRoxHTIfOTWDtp9PCtaoyxoVprc-wI"
+
+export NOTION_FILE_TOKEN="v02%3Afile_token%3A5y0H2z5E71SsPvBQq4SVDh9LbXfkFDy7Ip-0q6siWs28OzP9EF5d0flt-VJQ-ZuW2Rt6HK_u62aCVheomsKZBMNSbixibOekoHrGSMadYiZhL7lTFd6LBkSHG7RciPrjzEOOVZP9R5AXzU5sBTY35WcQhCK7"
+
+现在你可以使用以下命令将 Notion 页面导出为图片：
+notion-exporter <page-id> -t image -o output.png
+
+这个新的实现有以下特点：
+
+使用 Puppeteer 将 Markdown 内容渲染为 HTML
+提供了多个自定义选项：
+template: 可以选择 'Simple' 或 'Full' 模板，或者自定义样式
+font: 自定义字体
+footer: 添加页脚文本
+width: 设置图片宽度
+quality: 设置图片质量（1-100）
+样式设计：
+使用了类似 Notion 的字体和颜色
+优化了代码块、表格、引用等元素的样式
+响应式布局，可以适应不同的宽度
+支持深色文本和浅色背景，确保良好的可读性
+技术特点：
+使用 marked.js 解析 Markdown
+自动调整视口高度以适应内容
+2x 设备缩放比例，确保清晰的输出
+支持完整的 Markdown 语法，包括表格、代码块等

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import sade from "sade"
 
 import { NotionExporter } from "./NotionExporter"
@@ -6,7 +8,8 @@ import action, { FileType } from "./action"
 export default NotionExporter
 export { Config, defaultConfig } from "./config"
 
-export const cli = (args: string[]) => {
+// 如果是直接运行这个文件（而不是作为模块导入），则运行 CLI
+if (require.main === module) {
   const pkg = require("../package.json")
 
   sade("notion-exporter <blockId/URL>", true)
@@ -20,10 +23,15 @@ export const cli = (args: string[]) => {
     environment variable or via the prompt of the command.
     The user needs to have at least read access to the block/page to download.
 
-    © ${pkg.author}, 2022.`
+    ${pkg.author}, 2022.`
     )
-
     .option("-t, --type", `File type to be exported: ${FileType}`, "md")
+    .option("-o, --output", "Output file name", "")
+    .option("-T, --template", "Template file name", "")
+    .option("-w, --width", "Width of exported images", "")
+    .option("-q, --quality", "Quality of exported images", "")
+    .option("-f, --font", "Font of exported images", "")
+    .option("-F, --footer", "Footer of exported images", "")
     .option("-r, --recursive", "Export children subpages", false)
     .option(
       "-a, --all-files",
@@ -39,7 +47,13 @@ export const cli = (args: string[]) => {
       action(blockId, opts.type, {
         includeContents: opts["all-files"],
         recursive: opts.recursive,
+        output: opts.output,
+        template: opts.template,
+        width: parseInt(opts.width),
+        quality: parseInt(opts.quality),
+        font: opts.font,
+        footer: opts.footer
       })
     )
-    .parse(args)
+    .parse(process.argv)
 }

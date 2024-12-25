@@ -12,6 +12,18 @@ export interface Config {
   collectionViewExportType?: "currentView" | "all"
   /** Poll export task finished interval in ms */
   pollInterval?: number
+  /** Output file path */
+  output?: string
+  /** Template style for image export (Simple/Full) */
+  template?: string
+  /** Image width in pixels */
+  width?: number
+  /** Image quality (1-100) */
+  quality?: number
+  /** Custom font family for image export */
+  font?: string
+  /** Footer text for image export */
+  footer?: string
 }
 
 export const defaultConfig: Config = {
@@ -19,4 +31,7 @@ export const defaultConfig: Config = {
   locale: "en",
   collectionViewExportType: "all",
   pollInterval: 500,
+  template: "Simple",
+  width: 1200,
+  quality: 90
 }
